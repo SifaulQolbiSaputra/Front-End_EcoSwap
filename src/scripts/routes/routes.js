@@ -1,12 +1,13 @@
-// import ExploreRestaurant from '../views/pages/explore-restaurant';
-// import Detail from '../views/pages/detail';
-// import Favorite from '../views/pages/favorite-restaurant';
+import Home from '../views/pages/home';
+import PickUp from '../views/pages/pick-up';
+import SwapPoint from '../views/pages/swap-point';
 
-// const routes = {
-//   '/': ExploreRestaurant, // default page
-//   '/explore-restaurant': ExploreRestaurant,
-//   '/detail/:id': Detail,
-//   '/favorite': Favorite,
-// };
+const routes = {
+  '/': Home, // default page
+  '/home': Home,
+  '/pick-up': PickUp,
+  '/swap-point': SwapPoint,
+  // '/detail-article/:id': DetailArticle,
+};
 
-// export default routes;
+export default routes;
