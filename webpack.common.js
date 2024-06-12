@@ -19,15 +19,12 @@ module.exports = {
         test: /\.(scss)$/,
         use: [
           {
-            // Adds CSS to the DOM by injecting a `<style>` tag
             loader: 'style-loader',
           },
           {
-            // Interprets `@import` and `url()` like `import/require()` and will resolve them
             loader: 'css-loader',
           },
           {
-            // Loader for webpack to process CSS with PostCSS
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
@@ -38,15 +35,10 @@ module.exports = {
             },
           },
           {
-            // Loads a SASS/SCSS file and compiles it to CSS
             loader: 'sass-loader',
           },
         ],
       },
-      // {
-      //   test: /\.html$/,
-      //   use: ['html-loader'],
-      // },
     ],
   },
   plugins: [
@@ -57,6 +49,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'login.html',
       template: path.resolve(__dirname, 'src/templates/login.html'),
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'loginAdmin.html',
+      template: path.resolve(__dirname, 'src/templates/loginAdmin.html'),
     }),
     new HtmlWebpackPlugin({
       filename: 'signUp.html',

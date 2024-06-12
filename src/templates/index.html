@@ -5,8 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="EcoSwap - Aplikasi Penukaran Sampah Online">
-  <link rel="icon" href="./icons/Logo.png">
+  <meta name="theme-color" content="#DB0000"/>
+  <link rel="icon" href="./icons/logoEcoSwap.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+  <link rel="manifest" href="./app.webmanifest">
+  
+  <!-- Font google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
   <title>Eco Swap</title>
 </head>
 
@@ -17,7 +26,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm px-2 fixed-top z-3">
       <div class="container-fluid">
         <a class="navbar-brand fw-semibold fst-italic fs-4" href="#">
-          <img src="./icons/Logo.png" alt="Logo" width="36" height="36" class="d-inline-block align-text-top me-1">
+          <img src="./icons/logoEcoSwap.png" alt="Logo" width="36" height="36" class="d-inline-block align-text-top me-1">
           EcoSwap
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -38,13 +47,16 @@
             <li class="nav-item">
               <a class="nav-link fs-6 fw-semibold me-2" href="#ourContact">Kontak Kami</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="logout-link nav-item">
+              <a class="nav-link fs-6 fw-semibold me-2 bg-danger text-light rounded px-4 py-2" style="cursor: pointer;">Keluar</a>
+            </li>
+            <li class="login-link nav-item dropdown">
               <a class="nav-link fs-6 fw-semibold me-2 dropdown-toggle bg-light text-success rounded px-4 py-2" href="#"
                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Login
+                Masuk
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item fw-semibold" href="./login.html">Admin</a></li>
+                <li><a class="dropdown-item fw-semibold" href="./loginAdmin.html">Admin</a></li>
                 <li><a class="dropdown-item fw-semibold" href="./login.html">Pengguna</a></li>
               </ul>
             </li>
