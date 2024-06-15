@@ -1,5 +1,7 @@
+/* eslint-disable no-alert */
 import $ from 'jquery';
 import { createDetailPickupTemplate } from '../templates/template-creator';
+import API_ENDPOINT from '../../globals/api-endpoint';
 
 const DetailPickup = {
   async render() {
@@ -14,7 +16,7 @@ const DetailPickup = {
     const detailContainer = $('.container-detail-pickup');
 
     try {
-      const response = await fetch(`https://back-end-eco-swap-api.vercel.app/pickups/${pickupId}`);
+      const response = await fetch(`${API_ENDPOINT.PICKUP_REQUEST}/${pickupId}`);
       const result = await response.json();
 
       if (response.status === 200 && result.status === 'success') {
@@ -33,8 +35,8 @@ const DetailPickup = {
           };
 
           try {
-            const token = localStorage.getItem('token'); // Ganti dengan token admin yang sebenarnya
-            const approveResponse = await fetch(`https://back-end-eco-swap-api.vercel.app/pickups/${pickupId}/approve`, {
+            const token = localStorage.getItem('token');
+            const approveResponse = await fetch(`${API_ENDPOINT.PICKUP_REQUEST}/${pickupId}/approve`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
@@ -7,16 +8,16 @@ import '../scss/responsive.scss';
 import 'regenerator-runtime';
 import $ from 'jquery';
 import App from './views/app';
-// import swRegister from './utils/sw-register';
+import swRegister from './utils/sw-register';
 
 import EcoSwapSource from './data/ecoswap-source';
 
 document.addEventListener('DOMContentLoaded', () => {
   const currentPath = window.location.pathname;
-  console.log(currentPath);
 
   switch (currentPath) {
     case '/index.html':
+
       EcoSwapSource.logout();
       break;
     case '/':
@@ -46,5 +47,5 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('load', () => {
   app.renderPage();
-//   swRegister();
+  swRegister();
 });

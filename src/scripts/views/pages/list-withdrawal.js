@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { createListWithdrawalTemplate } from '../templates/template-creator';
+import API_ENDPOINT from '../../globals/api-endpoint';
 
 const ListWithdrawal = {
   async render() {
@@ -12,7 +13,7 @@ const ListWithdrawal = {
     const listWithdrawalContainer = $('.container-list-withdrawal');
 
     try {
-      const response = await fetch('https://back-end-eco-swap-api.vercel.app/withdrawals');
+      const response = await fetch(API_ENDPOINT.WITHDRAWALS);
       const result = await response.json();
 
       if (response.status === 200 && result.status === 'success') {

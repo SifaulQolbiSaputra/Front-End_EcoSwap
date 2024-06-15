@@ -1,5 +1,7 @@
+/* eslint-disable no-alert */
 import $ from 'jquery';
 import { createDetailWithdrawalTemplate } from '../templates/template-creator';
+import API_ENDPOINT from '../../globals/api-endpoint';
 
 const DetailWithdrawal = {
   async render() {
@@ -14,7 +16,7 @@ const DetailWithdrawal = {
     const detailContainer = $('.container-detail-withdrawal');
 
     try {
-      const response = await fetch(`https://back-end-eco-swap-api.vercel.app/withdrawals/${withdrawalId}`);
+      const response = await fetch(`${API_ENDPOINT.WITHDRAWALS}/${withdrawalId}`);
       const result = await response.json();
 
       if (response.status === 200 && result.status === 'success') {
@@ -25,7 +27,7 @@ const DetailWithdrawal = {
 
           try {
             const token = localStorage.getItem('token'); // Ganti dengan token admin yang sebenarnya
-            const approveResponse = await fetch(`https://back-end-eco-swap-api.vercel.app/withdrawals/${withdrawalId}/approve`, {
+            const approveResponse = await fetch(`${API_ENDPOINT.WITHDRAWALS}/${withdrawalId}/approve`, {
               method: 'PUT',
               headers: {
                 Authorization: `Bearer ${token}`,

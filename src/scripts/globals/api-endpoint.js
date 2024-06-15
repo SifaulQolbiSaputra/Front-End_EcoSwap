@@ -8,6 +8,8 @@ const API_ENDPOINT = {
   PICKUP_REQUEST: `${CONFIG.BASE_URL}/pickups`,
   WITHDRAWALS: `${CONFIG.BASE_URL}/withdrawals`,
   HISTORY_TRANSACTION: `${CONFIG.BASE_URL}/pickups/users`,
+  USER_INFORMATION: `${CONFIG.BASE_URL}/users`,
+  USER_POINT: `${CONFIG.BASE_URL}/points`,
 };
 
 export default API_ENDPOINT;

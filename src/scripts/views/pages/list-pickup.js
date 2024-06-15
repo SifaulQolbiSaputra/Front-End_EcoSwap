@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { createListPickupTemplate } from '../templates/template-creator';
+import API_ENDPOINT from '../../globals/api-endpoint';
 
 const ListPickup = {
   async render() {
@@ -12,7 +13,7 @@ const ListPickup = {
     const homeContainer = $('.container-list-pickup');
 
     try {
-      const response = await fetch('https://back-end-eco-swap-api.vercel.app/pickups');
+      const response = await fetch(API_ENDPOINT.PICKUP_REQUEST);
       const result = await response.json();
 
       if (response.status === 200 && result.status === 'success') {

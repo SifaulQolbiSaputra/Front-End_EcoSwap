@@ -1,5 +1,7 @@
+/* eslint-disable prefer-regex-literals */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const { ProvidePlugin } = require('webpack');
 const path = require('path');
@@ -69,6 +71,21 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'src/public/'),
           to: path.resolve(__dirname, 'dist/'),
+        },
+      ],
+    }),
+    new WorkboxWebpackPlugin.GenerateSW({
+      swDest: './sw.bundle.js',
+      runtimeCaching: [
+        {
+          urlPattern: new RegExp('^https://back-end-eco-swap-api.vercel.app'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'ecoswapdb-api',
+            cacheableResponse: {
+              statuses: [200],
+            },
+          },
         },
       ],
     }),

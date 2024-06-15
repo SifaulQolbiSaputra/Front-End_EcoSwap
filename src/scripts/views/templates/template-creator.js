@@ -1,7 +1,10 @@
-const createHomeTemplate = () => `
+const createHomeTemplate = (articles) => `
 <!-- Jumbotron Start -->
 <section class="heading">
   <div class="jumbotron">
+    <div class="profil-user-container container-xxl py-3">
+    
+    </div>
     <div class="jumbotron__text container-xxl py-4">
       <h1 class="display-4 fw-semibold text-light">Selamat Datang Di Ecoswap</h1>
       <h2 class="display-7 fw-medium text-light">Sebuah Platfrom Daur Ulang Dari Rakyat Untuk Rakyat</h2>
@@ -121,51 +124,27 @@ const createHomeTemplate = () => `
   </section>
 
   <section id="article" class="px-2" style="margin-top: 4rem;">
-    <article class="article">
-      <h2 class="fw-semibold fs-2">Artikel</h2>
-      <div class="article__content mt-3">
+  <article class="article">
+    <h2 class="fw-semibold fs-2">Artikel</h2>
+    <div class="article__content mt-3">
+      ${articles.articles.map((article) => `
         <div class="card mb-3 p-3">
           <div class="row g-0">
             <div class="col-md-4 text-center">
-              <img src="./images/18.jpg" class="img-fluid rounded object-position-center object-fit-cover" alt="..." style="height: 250px; min-height: 200px;">
+              <img src="${article.picture}" class="img-fluid rounded object-position-center object-fit-cover" alt="..." style="height: 250px; min-height: 200px;">
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title fw-semibold fs-5">Memahami Konsep Bank Sampah: Mengelola Sampah Menuju Lingkungan yang Bersih dan Sehat</h5>
-                <p class="card-text mt-4">Bank sampah adalah salah satu inovasi yang telah membawa perubahan positif dalam pengelolaan sampah di banyak komunitas. Konsep bank sampah tidak hanya sekadar tempat pengumpulan sampah, tetapi juga merupakan langkah nyata menuju keberlanjutan lingkungan dan ekonomi.<a href="#" class="btn btn-outline-success mt-0 btn-sm rounded-pill">Baca selengkapnya</a></p>
+                <h5 class="card-title fw-semibold fs-5">${article.name}</h5>
+                <p class="card-text mt-4">${article.content.pendahuluan}<a href="#/detail-article/${article.id}" class="btn btn-outline-success mt-0 btn-sm rounded-pill">Baca selengkapnya</a></p>
               </div>
             </div>
           </div>
         </div>
-        <div class="card mb-3 p-3">
-          <div class="row g-0">
-            <div class="col-md-4 text-center">
-              <img src="./images/18.jpg" class="img-fluid rounded object-position-center object-fit-cover" alt="..." style="height: 250px; min-height: 200px;">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title fw-semibold fs-5">Memahami Konsep Bank Sampah: Mengelola Sampah Menuju Lingkungan yang Bersih dan Sehat</h5>
-                <p class="card-text mt-4">Bank sampah adalah salah satu inovasi yang telah membawa perubahan positif dalam pengelolaan sampah di banyak komunitas. Konsep bank sampah tidak hanya sekadar tempat pengumpulan sampah, tetapi juga merupakan langkah nyata menuju keberlanjutan lingkungan dan ekonomi.<a href="#" class="btn btn-outline-success mt-0 btn-sm rounded-pill">Baca selengkapnya</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card mb-3 p-3">
-          <div class="row g-0">
-            <div class="col-md-4 text-center">
-              <img src="./images/18.jpg" class="img-fluid rounded object-position-center object-fit-cover" alt="..." style="height: 250px; min-height: 200px;">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title fw-semibold fs-5">Memahami Konsep Bank Sampah: Mengelola Sampah Menuju Lingkungan yang Bersih dan Sehat</h5>
-                <p class="card-text mt-4">Bank sampah adalah salah satu inovasi yang telah membawa perubahan positif dalam pengelolaan sampah di banyak komunitas. Konsep bank sampah tidak hanya sekadar tempat pengumpulan sampah, tetapi juga merupakan langkah nyata menuju keberlanjutan lingkungan dan ekonomi.<a href="#" class="btn btn-outline-success mt-0 btn-sm rounded-pill">Baca selengkapnya</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  </section>
+      `).join('')}
+    </div>
+  </article>
+</section>
 
   <section id="ourContact" class="px-2" style="margin-top: 4rem;">
     <div class="contact">
@@ -220,7 +199,7 @@ const createHomeAdminTemplate = () => `
         <div class="card-body">
           <h3 class="card-title fw-semibold">Kenapa memilih EcoSwap</h3>
           <p class="card-text my-3">Sebuah platform daur ulang yang berbasis online berguna untuk mempermudah masyarakat dalam menyalurkan limbah rumah tangga</p>
-          <a href="#aboutEcoSwap" class="btn btn-outline-light btn-sm">Pelajari selengkapnya</a>
+          <a href="#aboutEcoSwap" id="aboutLink2" class=" btn btn-outline-light btn-sm">Pelajari selengkapnya</a>
         </div>
       </div>
     </div>
@@ -250,7 +229,7 @@ const createHomeAdminTemplate = () => `
 </section>
 <!-- Jumbotron End -->
 
-  <section id="aboutEcoSwap" class="w-full d-flex flex-row justify-content-between align-items-center" style="padding-top: 4rem; margin-top: 2rem;">
+  <section id="aboutEcoSwap__admin" class="w-full d-flex flex-row justify-content-between align-items-center" style="padding-top: 4rem; margin-top: 2rem;">
     <div class="image d-none d-md-block bg-danger" style="min-width: 230px;">
       <img src="./images/12.jpg" class="image__aboutEcoSwap img-fluid" alt="About EcoSwap">
     </div>
@@ -314,7 +293,7 @@ const createHomeAdminTemplate = () => `
     </div>
   </section>
 
-  <section id="article" class="px-2" style="margin-top: 4rem;">
+  <section id="article__admin" class="px-2" style="margin-top: 4rem;">
     <article class="article">
       <h2 class="fw-semibold fs-2">Artikel</h2>
       <div class="article__content mt-3">
@@ -361,7 +340,7 @@ const createHomeAdminTemplate = () => `
     </article>
   </section>
 
-  <section id="ourContact" class="px-2" style="margin-top: 4rem;">
+  <section id="ourContact__admin" class="px-2" style="margin-top: 4rem;">
     <div class="contact">
       <h2 class="contact__heading text-center fw-semibold fs-2">Kontak Kami</h2>
 
@@ -627,10 +606,24 @@ const createDetailWithdrawalTemplate = (withdrawal) => `
 </div>
 `;
 
-const createDetailArticleTemplate = () => `
-  <div class="bg-success" style="">
-
+const createDetailArticleTemplate = (article) => `
+  <div class="article-container">
+    <article>
+      <h1>${article.name}</h1>
+      <img src="${article.picture}" alt="${article.name}" class="img-fluid rounded">
+      ${Object.keys(article.content).map((key) => `
+        <h2>${key}</h2>
+        <p>${article.content[key]}</p>
+      `).join('')}
+    </article>
   </div>
+`;
+
+const createProfilUserTemplate = (username, totalPoint) => `
+    <div class="text-light pt-2">
+      <p class="fw-semibold fs-3 mt-4">${username}</p>
+      <p class="fw-semibold fs-4 mt-0">Total Point : ${totalPoint}</p>
+    </div>
 `;
 
 export {
@@ -646,4 +639,5 @@ export {
   createDetailPickupTemplate,
   createListWithdrawalTemplate,
   createDetailWithdrawalTemplate,
+  createProfilUserTemplate,
 };
