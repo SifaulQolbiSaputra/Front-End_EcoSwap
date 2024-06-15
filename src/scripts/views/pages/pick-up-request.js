@@ -4,7 +4,6 @@
 // pick-up-request.js
 import $ from 'jquery';
 import { createPickUpRequestTemplate } from '../templates/template-creator';
-import API_ENDPOINT from '../../globals/api-endpoint';
 import EcoSwapSource from '../../data/ecoswap-source';
 
 const PickUpRequest = {
