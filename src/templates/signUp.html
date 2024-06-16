@@ -109,7 +109,7 @@
                             </div>
                             <div class="form-floating">
                                 <input id="firstName" type="text" name="firstname" placeholder="Nama Depan"
-                                    class="form-control bg-white border-left-0 border-md">
+                                    class="form-control bg-white border-left-0 border-md" required>
                                 <label for="firstname">Nama Depan</label>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                             </div>
                             <div class="form-floating">
                                 <input id="lastName" type="text" name="lastname" placeholder="Nama Belakang"
-                                    class="form-control bg-white border-left-0 border-md">
+                                    class="form-control bg-white border-left-0 border-md" required>
                                 <label for="lastname">Nama Belakang</label>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                             </div>
                             <div class="form-floating">
                                 <input id="email" type="email" name="email" placeholder="Alamat Email"
-                                    class="form-control bg-white border-left-0 border-md">
+                                    class="form-control bg-white border-left-0 border-md" required>
                                 <label for="email">Email</label>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                             </div>
                             <div class="form-floating">
                                 <input id="phoneNumber" type="tel" name="phone" placeholder="Nomor Telepon"
-                                    class="form-control bg-white border-md border-left-0 pl-3">
+                                    class="form-control bg-white border-md border-left-0 pl-3" required>
                                 <label for="phoneNumber">Nomor Telepon</label>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                             </div>
                             <div class="form-floating">
                                 <input id="password" type="password" name="password" placeholder="Password"
-                                    class="form-control bg-white border-left-0 border-md">
+                                    class="form-control bg-white border-left-0 border-md" required>
                                 <label for="password">Password</label>
                             </div>
                         </div>
@@ -194,16 +194,20 @@
                             <div class="form-floating">
                                 <input id="passwordConfirmation" type="text" name="passwordConfirmation"
                                     placeholder="Konfirmasi Password"
-                                    class="form-control bg-white border-left-0 border-md">
+                                    class="form-control bg-white border-left-0 border-md" required>
                                 <label for="passwordConfirmation">Konfirmasi Password</label>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="form-group col-lg-12 mx-auto mb-0">
-                            <button type="submit" class="btn btn-success btn-block py-2 w-100 font-weight-bold">
+                            <button type="submit" class="btn-register btn btn-success btn-block py-2 w-100 font-weight-bold">
                                 Buat Akun
                             </button>
+                            <button class="btn-status btn btn-success mb-3" type="button" disabled>
+                                <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                                <span role="status">Loading...</span>
+                              </button>
                         </div>
 
                         <!-- Already Registered -->

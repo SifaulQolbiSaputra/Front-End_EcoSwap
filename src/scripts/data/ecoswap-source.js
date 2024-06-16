@@ -6,8 +6,15 @@ import API_ENDPOINT from '../globals/api-endpoint';
 
 class EcoSwapSource {
   static async registerUser() {
+    const registerButton = $('.btn-register');
+    const statusButton = $('.btn-status');
+    statusButton.css('display', 'none');
+
     document.getElementById('registrationForm').addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      registerButton.css('display', 'none');
+      statusButton.css('display', 'block');
 
       const firstName = document.getElementById('firstName').value.toString();
       const lastName = document.getElementById('lastName').value.toString();
@@ -16,7 +23,15 @@ class EcoSwapSource {
       const passwordConfirmation = document.getElementById('passwordConfirmation').value.toString();
 
       if (password !== passwordConfirmation) {
-        alert('Password dan Konfirmasi Password tidak cocok.');
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Password tidak cocok!',
+          text: 'Harap cek kembali!',
+        });
+        // Revert button display states on error
+        statusButton.css('display', 'none');
+        registerButton.css('display', 'block');
         return;
       }
 
@@ -26,38 +41,73 @@ class EcoSwapSource {
         password,
       };
 
-      console.log('Data yang dikirim:', data);
-
       try {
-        const response = await fetch(API_ENDPOINT.REGISTER, {
+        const options = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
-        });
+        };
+        const response = await fetch(API_ENDPOINT.REGISTER, options);
 
         if (!response.ok) {
           const errorData = await response.json();
-          console.error('Error dari server:', errorData);
-          throw new Error('Gagal registrasi, silakan coba lagi.');
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: `${errorData.message}`,
+            text: 'Gagal mengirim data! Coba lagi nanti.',
+          });
+          // Revert button display states on error
+          statusButton.css('display', 'none');
+          registerButton.css('display', 'block');
+          return;
         }
 
         const responseData = await response.json();
-        alert('Registrasi berhasil! Silakan login.');
-        window.location.href = './login.html';
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Berhasil Daftar!',
+          text: 'Silahkan login pada halaman login',
+        });
       } catch (error) {
         console.error('Error:', error);
-        alert('Terjadi kesalahan saat registrasi. Silakan coba lagi nanti.');
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `${error.message}`,
+          text: 'Terjadi kesalahan saat registrasi! coba lagi nanti',
+        });
+        // Revert button display states on error
+        statusButton.css('display', 'none');
+        registerButton.css('display', 'block');
       }
     });
   }
 
   static async loginUser() {
     const loginForm = document.getElementById('loginForm');
+    const loginButton = $('.btn-login');
+    const statusButton = $('.btn-status');
+
+    $('.toggle-password').on('click', () => {
+      const passwordInput = $('#password');
+      const icon = $('.fa-eye-slash'); // Select the clicked icon element
+
+      const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+      passwordInput.attr('type', type);
+      icon.toggleClass('fa-eye'); // Change icon based on password visibility
+    });
+
+    statusButton.css('display', 'none');
 
     loginForm.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      loginButton.css('display', 'none');
+      statusButton.css('display', 'block');
 
       const email = document.getElementById('email').value.toString();
       const password = document.getElementById('password').value.toString();
@@ -68,37 +118,45 @@ class EcoSwapSource {
       };
 
       try {
-        const response = await fetch(API_ENDPOINT.LOGIN_USER, {
+        const options = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
-        });
+        };
+        const response = await fetch(API_ENDPOINT.LOGIN_USER, options);
 
         if (!response.ok) {
           const errorData = await response.json();
-          // throw new Error(errorData.message || 'Gagal melakukan login. Silakan coba lagi.');
           Swal.fire({
             position: 'center',
             icon: 'error',
             title: `${errorData.message}`,
-            text: 'Please try again later.',
-            timer: 1500,
+            text: 'Email atau Password salah!',
           });
+
+          // Revert button display states on error
+          statusButton.css('display', 'none');
+          loginButton.css('display', 'block');
+          return;
         }
 
         const responseData = await response.json();
         const { token } = responseData.data;
+        const { userId } = responseData.data;
 
         // Simpan token di local storage atau sebagai cookie
         localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('role', 'user');
 
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Berhasil login',
-          text: 'Please try again later.',
+          title: 'Berhasil login!',
+          text: 'Selamat datang kembali di EcoSwap',
+          showConfirmButton: false,
           timer: 1500,
         });
 
@@ -108,16 +166,39 @@ class EcoSwapSource {
         }, 1500);
       } catch (error) {
         console.error('Error:', error);
-        alert(error.message);
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `${error.message}`,
+          text: 'Email atau Password salah!',
+        });
+        // Revert button display states on error
+        statusButton.css('display', 'none');
+        loginButton.css('display', 'block');
       }
     });
   }
 
   static async loginAdmin() {
     const loginForm = document.getElementById('loginFormAdmin');
+    const loginButton = $('.btn-login-admin');
+    const statusButton = $('.btn-status');
 
+    $('.toggle-password').on('click', () => {
+      const passwordInput = $('#password');
+      const icon = $('.fa-eye-slash'); // Select the clicked icon element
+
+      const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+      passwordInput.attr('type', type);
+      icon.toggleClass('fa-eye'); // Change icon based on password visibility
+    });
+
+    statusButton.css('display', 'none');
     loginForm.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      loginButton.css('display', 'none');
+      statusButton.css('display', 'block');
 
       const email = document.getElementById('email').value.toString();
       const password = document.getElementById('password').value.toString();
@@ -128,91 +209,197 @@ class EcoSwapSource {
       };
 
       try {
-        const response = await fetch(API_ENDPOINT.LOGIN_ADMIN, {
+        const options = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
-        });
+        };
+        const response = await fetch(API_ENDPOINT.LOGIN_ADMIN, options);
 
         const responseData = await response.json();
 
         if (!response.ok) {
-          throw new Error(responseData.message || 'Gagal login');
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: `${responseData.message}`,
+            text: 'Email atau Password salah!',
+          });
+
+          // Revert button display states on error
+          statusButton.css('display', 'none');
+          loginButton.css('display', 'block');
+          return;
         }
 
         // Simpan token ke local storage
         localStorage.setItem('token', responseData.data.token);
+        localStorage.setItem('role', 'admin');
+
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Berhasil login!',
+          text: 'Selamat datang kembali di EcoSwap',
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
         // Redirect ke halaman admin setelah login berhasil
-        window.location.href = './index.html';
+        setTimeout(() => {
+          window.location.href = '/#/home-admin';
+        }, 1500);
       } catch (error) {
         console.error('Error:', error);
-        alert(error.message);
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `${error.message}`,
+          text: 'Email atau Password salah!',
+        });
+        // Revert button display states on error
+        statusButton.css('display', 'none');
+        loginButton.css('display', 'block');
       }
     });
   }
 
   static async logout() {
-    const token = localStorage.getItem('token');
-    const pickUpRequestLink = document.getElementById('pick-up-request');
-    const swapPointLink = document.getElementById('swap-point');
-    const historyTransactionLink = document.getElementById('history-transaction');
-
-    // Function to redirect to login page if token is not available
-
-    const loginLink = document.querySelector('.login-link');
-    const logoutLink = document.querySelector('.logout-link');
-    // const signUpLink = document.querySelector('.signUpLink');
+    const loginLink = $('.login-link');
+    const logoutLink = $('.logout-link');
+    const statusButton = $('.btn-status');
+    statusButton.css('display', 'none');
+    loginLink.css('display', 'none');
 
     // Cek apakah token tersimpan
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       // Jika ada token, tampilkan link logout dan sembunyikan link login
-      loginLink.style.display = 'none';
-      logoutLink.style.display = 'block';
-    //   signUpLink.style.display = 'none';
-    //   signUpLink.style.display = 'block';
-    pickUpRequestLink.href = '/#/pick-up-request';
-      historyTransactionLink.href = '/#/history-transaction';
-      swapPointLink.href = '/#/swap-point';
+      loginLink.css('display', 'none');
+      logoutLink.css('display', 'block');
     } else {
-      // Jika tidak ada token, tampilkan link login dan sembunyikan link logout
-      loginLink.style.display = 'block';
-      logoutLink.style.display = 'none';
-      pickUpRequestLink.href = './login.html';
-      historyTransactionLink.href = './login.html';
-      swapPointLink.href = './login.html';
+      loginLink.css('display', 'block');
+      logoutLink.css('display', 'none');
     }
 
     // Event listener untuk logout
-    logoutLink.addEventListener('click', async () => {
+    logoutLink.on('click', async () => {
+      logoutLink.css('display', 'none');
+      statusButton.css('display', 'block');
       try {
         // Lakukan request logout
-        console.log('keluar');
-        const response = await fetch(API_ENDPOINT.LOGOUT, {
+        const options = {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        };
+        const response = await fetch(API_ENDPOINT.LOGOUT, options);
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Gagal logout');
+          logoutLink.css('display', 'block');
+          statusButton.css('display', 'none');
+          return;
         }
 
         // Hapus token dari local storage
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
 
         // Redirect ke halaman login atau halaman lain
-        window.location.href = './login.html'; // Misalnya halaman login
+        window.location.href = './';
       } catch (error) {
         console.error('Error:', error);
-        alert(error.message);
+        logoutLink.css('display', 'block');
+        statusButton.css('display', 'none');
       }
     });
+  }
+
+  static async pickUpRequest(data) {
+    try {
+      const token = localStorage.getItem('token'); // Asumsikan token disimpan di local storage
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      };
+      const response = await fetch(API_ENDPOINT.PICKUP_REQUEST, options);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error dari server:', errorData);
+        throw new Error('Gagal mengajukan permintaan penjemputan. Silakan coba lagi.');
+      }
+
+      const responseData = await response.json();
+      alert('Permintaan penjemputan berhasil diajukan!');
+
+      // Opsional, alihkan halaman atau kosongkan form
+      // window.location.href = './somepage.html';
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Terjadi kesalahan saat mengajukan permintaan penjemputan. Silakan coba lagi nanti.');
+    }
+  }
+
+  static async getPickupsByUserId(userId) {
+    try {
+      const token = localStorage.getItem('token'); // Asumsikan token disimpan di local storage
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await fetch(`${API_ENDPOINT.HISTORY_TRANSACTION}/${userId}`, options);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Gagal mengambil data penjemputan.');
+      }
+
+      const responseData = await response.json();
+      return responseData.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  static async getUserInfo(userId) {
+    try {
+      const response = await fetch(`${API_ENDPOINT.USER_INFORMATION}/${userId}`);
+      if (!response.ok) {
+        throw new Error('Gagal mengambil informasi pengguna');
+      }
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  static async getUserPoints(userId) {
+    try {
+      const response = await fetch(`${API_ENDPOINT.USER_POINT}/${userId}`);
+      if (!response.ok) {
+        // throw new Error('Gagal mengambil poin pengguna');
+      }
+      const data = await response.json();
+      return data.data.total_points;
+    } catch (error) {
+      return null;
+    }
   }
 }
 

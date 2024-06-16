@@ -1,6 +1,8 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-undef */
 import $ from 'jquery';
-import { createHistoryTransactionTemplate } from '../templates/template-creator';
+import EcoSwapSource from '../../data/ecoswap-source';
+import { createHistoryTransactionTemplate, createTransactionCardTemplate } from '../templates/template-creator';
 
 const HistoryTransaction = {
   async render() {
@@ -12,6 +14,19 @@ const HistoryTransaction = {
   async afterRender() {
     const homeContainer = $('.container-history-transaction');
     homeContainer.append(createHistoryTransactionTemplate());
+
+    try {
+      const userId = localStorage.getItem('userId'); // Asumsikan userId disimpan di local storage
+      const transactions = await EcoSwapSource.getPickupsByUserId(userId);
+
+      const transactionListContainer = homeContainer.find('.transaction__list');
+      transactions.forEach((transaction, index) => {
+        transactionListContainer.append(createTransactionCardTemplate(transaction, index + 1));
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Gagal mengambil data transaksi. Silakan coba lagi nanti.');
+    }
   },
 };
 
